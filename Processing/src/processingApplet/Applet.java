@@ -13,32 +13,24 @@ import themidibus.MidiBus;
 public class Applet extends PApplet {
 
 	MidiBus bus = new MidiBus(this, -1, 1);
+	ArrayList<Node> nodes = new ArrayList<Node>();
+	Interaction interaction;
+	Grid grid;
+	
 	float bpm = 120;
-	float pxPrStep = 64; 
 	
 	float prevTime = 0;
 	float dt = 0;
 	
 	//Maybe a hashmap should be used since we have everything in a grid
 	//HashMap<PVector, Node> map = new HashMap<PVector, Node>();
-	
-	ArrayList<Node> nodes = new ArrayList<Node>();
-	Interaction interaction;
-	Grid grid;
-	// Should make a class for the ui behavior.
-	// Two nodes for drag and drop connections between nodes. 
-	//Node selectFrom;
-	//Node selectTo;
-	// The node that is under the cursor
-	//Node mouseNode;
-
 	public static void main(String[] args) {
 		PApplet.main("processingApplet.Applet");
-		
 	}
 	
 	public void settings() {
-		size((int)pxPrStep*10, (int)pxPrStep*10);
+		int unit = (int)grid.getPxPrUnit();
+		size(unit*10, unit*10);
 	}
 
 	public void setup() {
@@ -51,11 +43,11 @@ public class Applet extends PApplet {
 		// convert delta time to seconds.
 		dt = (millis() - prevTime)/1000;
 		
-		//mouseNode = collisionNodeMouse();
 		interaction.updateHitNode(mouseX, mouseY);
 		
 		for (Node n : nodes) {
 			// multiply dt and bpm to get the correct tempo.
+			// this is probably not the correct math yet
 			n.update(dt*bpm);
 		}
 		

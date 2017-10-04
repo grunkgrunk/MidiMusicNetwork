@@ -8,7 +8,6 @@ public class Grid {
 	private float height;
 	private float onX;
 	private float onY;
-	
 	private float pxPrUnit;
 	
 	public Grid(float w, float h, float unit) {
@@ -44,5 +43,9 @@ public class Grid {
 		for (int x = 0; x < onX; x++) {
 			app.line(x*pxPrUnit, 0, x*pxPrUnit, height);
 		}
+	}
+	
+	public float getPxPrUnit() {
+		return pxPrUnit;
 	}
 }

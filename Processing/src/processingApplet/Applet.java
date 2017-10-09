@@ -18,7 +18,6 @@ public class Applet extends PApplet {
 	Grid grid;
 	
 	float bpm = 120;
-	
 	float prevTime = 0;
 	float dt = 0;
 	
@@ -29,13 +28,14 @@ public class Applet extends PApplet {
 	}
 	
 	public void settings() {
-		int unit = (int)grid.getPxPrUnit();
+		int unit = 64;
+		grid = new Grid(unit*10, unit*10, 64);
 		size(unit*10, unit*10);
+		
 	}
 
 	public void setup() {
 		prevTime = 0;
-		grid = new Grid(width, height, 64);
 		interaction = new Interaction(nodes, bus, grid);
 	}
 
@@ -48,7 +48,11 @@ public class Applet extends PApplet {
 		for (Node n : nodes) {
 			// multiply dt and bpm to get the correct tempo.
 			// this is probably not the correct math yet
-			n.update(dt*bpm);
+			// we need to also take the grid into account. 
+			// one grid should be equal to 1 eight note.
+			
+			
+			n.update(dt*bpm*grid.getPxPrUnit() / 16);
 		}
 		
 		background(50);

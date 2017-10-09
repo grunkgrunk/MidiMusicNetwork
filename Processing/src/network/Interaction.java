@@ -74,7 +74,6 @@ public class Interaction {
 				PVector pos = grid.worldToGrid(mouseX, mouseY);
 				Node created = new MusicNode(bus, pos.x, pos.y);
 				nodes.add(created);
-				
 			} else {
 				hitNode.sendPackets();
 			}

@@ -18,6 +18,8 @@ public abstract class Node extends Circle {
 	
 	static int maxPackets = 1000;
 	
+	private float startRadius = 1;
+	
 	public Node(float x, float y) {
 		// default radius of node is 16 px
 		super(x,y,16);
@@ -64,6 +66,11 @@ public abstract class Node extends Circle {
 				packets.remove(i);
 			}
 		}
+		
+		startRadius *= 1.3;
+		if (startRadius >= radius) {
+			startRadius = radius;
+		}
 	}
 	
 	// Should maybe move render methods into an interface or into the circle-class
@@ -71,7 +78,7 @@ public abstract class Node extends Circle {
 	public void renderNormal(PApplet app) {
 		app.fill(255);
 		app.noStroke();
-		app.ellipse(position.x, position.y, radius*2, radius*2);
+		app.ellipse(position.x, position.y, startRadius*2, startRadius*2);
 		
 		app.textAlign(PConstants.CENTER);
 		app.fill(0);
@@ -83,14 +90,14 @@ public abstract class Node extends Circle {
 		app.strokeWeight(3);
 		app.noFill();
 		
-		app.ellipse(position.x, position.y, radius*2, radius*2);
+		app.ellipse(position.x, position.y, startRadius*2, startRadius*2);
 	}
 	
 	public void renderSelect(PApplet app) {
 		app.stroke(30, 30, 30, 200);
 		app.strokeWeight(6);
 		app.noFill();
-		app.ellipse(position.x, position.y, radius*2, radius*2);
+		app.ellipse(position.x, position.y, startRadius*2, startRadius*2);
 	}
 	
 	public void renderConnections(PApplet app) {

@@ -9,9 +9,12 @@ import network.Node;
 import processing.core.PApplet;
 import processing.event.MouseEvent;
 import themidibus.MidiBus;
+import visuals.Particle;
 
 public class Applet extends PApplet {
 
+	ArrayList<Particle> particles = new ArrayList<Particle>();
+	
 	MidiBus bus = new MidiBus(this, -1, 1);
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	Interaction interaction;
@@ -73,8 +76,24 @@ public class Applet extends PApplet {
 			n.renderNormal(this);
 		}
 		
+		
+		for (int i = 0; i < 100; i++) {
+			Particle p = new Particle(mouseX, mouseY);
+			p.randomVelocity();
+			particles.add(p);
+		}
+		
 		// Draw how the system responds to user input. 
 		interaction.render(this);
+		for (int i = particles.size()-1; i >= 0; i--) {
+			Particle p = particles.get(i);
+			p.update();
+			p.render(this);
+			
+			if (p.getIsDead()) {
+				particles.remove(i);
+			}
+		}
 		
 		prevTime = millis();
 
@@ -90,6 +109,7 @@ public class Applet extends PApplet {
 	
 	public void mousePressed() {
 		interaction.mousePressed(mouseButton);
+
 
 	}
 

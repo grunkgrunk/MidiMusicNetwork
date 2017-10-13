@@ -2,12 +2,11 @@ package network;
 
 import java.util.ArrayList;
 
+import instrument.MidiManager;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
 import processing.event.MouseEvent;
-
-import themidibus.MidiBus;
 
 public class Interaction {
 	private static final int LEFT = PConstants.LEFT;
@@ -24,12 +23,12 @@ public class Interaction {
 	private float mouseY;
 	
 	private ArrayList<Node> nodes;
-	private MidiBus bus;
+	private MidiManager midiManager;
 	private Grid grid;
 	
-	public Interaction(ArrayList<Node> nodes, MidiBus bus, Grid grid) {
+	public Interaction(ArrayList<Node> nodes, MidiManager midiManager, Grid grid) {
 		this.nodes = nodes;
-		this.bus = bus;
+		this.midiManager = midiManager;
 		this.grid = grid;
 	}
 	
@@ -72,9 +71,8 @@ public class Interaction {
 		if (mouseButton == LEFT) {
 			if (hitNode == null) {
 				PVector pos = grid.worldToGrid(mouseX, mouseY);
-				Node created = new MusicNode(bus, pos.x, pos.y);
+				Node created = new MusicNode(midiManager, pos.x, pos.y);
 				nodes.add(created);
-				
 			} else {
 				hitNode.sendPackets();
 			}

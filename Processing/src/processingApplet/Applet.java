@@ -3,21 +3,24 @@ package processingApplet;
 import java.util.ArrayList;
 //import java.util.HashMap;
 
+import instrument.MidiManager;
 import network.Grid;
 import network.Interaction;
 import network.Node;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.event.MouseEvent;
 import themidibus.MidiBus;
 
 public class Applet extends PApplet {
 
 	MidiBus bus = new MidiBus(this, -1, 1);
+	MidiManager midiManager = new MidiManager(bus);
 	ArrayList<Node> nodes = new ArrayList<Node>();
 	Interaction interaction;
 	Grid grid;
 	
-	float bpm = 120;
+	float bpm = 60;
 	float prevTime = 0;
 	float dt = 0;
 	
@@ -36,12 +39,14 @@ public class Applet extends PApplet {
 
 	public void setup() {
 		prevTime = 0;
-		interaction = new Interaction(nodes, bus, grid);
+		interaction = new Interaction(nodes, midiManager, grid);
 	}
 
 	public void draw() {
 		// convert delta time to seconds.
 		dt = (millis() - prevTime)/1000;
+		
+		midiManager.update(dt);
 		
 		interaction.updateHitNode(mouseX, mouseY);
 		
@@ -100,5 +105,17 @@ public class Applet extends PApplet {
 	public void keyPressed() {
 		interaction.keyPressed(key);
 		
+		//if (key == 'a') {
+			//System.out.println("helo=");
+		midiManager.setSustain(true);
+		//}
+	}
+	
+	public void keyReleased() {
+		midiManager.setSustain(false);
+		
+		if (key == 'a') {
+			midiManager.setSustain(false);
+		}
 	}
 }

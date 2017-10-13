@@ -1,38 +1,30 @@
 package network;
 
-import themidibus.MidiBus;
+import instrument.MidiManager;
 
 public class MusicNode extends Node {
 	private int velocity = 100;
 	private int pitch = 64;
-	private int channel = 0;
+
 	//private int sendSpeed = 5;
 	
-	private MidiBus bus;
+	private MidiManager midiManager;
 	
-	public MusicNode(MidiBus bus, float x, float y) {
+	public MusicNode(MidiManager midiManager, float x, float y) {
 		super(x, y);
-		this.bus = bus;
-	}
-	
-	private void sendNoteOn() {
-		bus.sendNoteOn(channel, pitch, velocity);
-	}
-	
-	private void sendNoteOff() {
-		bus.sendNoteOff(channel, pitch, velocity);
+		this.midiManager = midiManager;
 	}
 	
 	public void sendPackets() {
 		generatePackets();
-		sendNoteOn();
-		
+		midiManager.addSignal(pitch, velocity);
 	}
 	
 	public void receivePacket(Packet packet) {
 		sendPackets();
-		((MusicNode) packet.getSender()).sendNoteOff();
+		//((MusicNode) packet.getSender()).sendNoteOff();
 	}
+	
 	
 	public void incrementPitch(int delta) {
 		pitch += delta; 

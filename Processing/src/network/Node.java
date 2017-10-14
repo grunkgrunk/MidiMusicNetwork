@@ -20,7 +20,7 @@ public abstract class Node extends Circle {
 	
 	public Node(float x, float y) {
 		// default radius of node is 16 px
-		super(x,y,16);
+		super(x,y,10);
 	}
 	
 	
@@ -100,7 +100,12 @@ public abstract class Node extends Circle {
 			PVector start = dir.copy().mult(radius).add(position);
 			PVector end = dir.copy().mult(-n.getRadius()).add(other);
 			
+			boolean isInstant = ((MusicNode)n).getInstantSend();
 			app.stroke(150);
+			if (isInstant) {
+				app.stroke(255, 0, 0);	
+			}
+			
 			app.strokeWeight(1);
 			app.line(start.x, start.y, end.x, end.y);
 			app.fill(150);

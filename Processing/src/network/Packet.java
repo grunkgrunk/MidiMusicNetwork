@@ -20,6 +20,10 @@ public class Packet {
 		this.to = to;
 		
 		this.pos = from.getPosition();
+		
+		if (((MusicNode)to).getInstantSend()) {
+			arrive();
+		}
 	}
 	
 	public void update(float dt) {
@@ -28,10 +32,14 @@ public class Packet {
 			pos.add(dir.copy().mult(dt));
 			
 			if (pos.dist(to.getPosition()) <= pxPrSecond) {
-				to.receivePacket(this);
-				hasSent = true;
+				arrive();
 			}
 		}
+	}
+	
+	public void arrive() {
+		to.receivePacket(this);
+		hasSent = true;
 	}
 	
 	public void render(PApplet app) {

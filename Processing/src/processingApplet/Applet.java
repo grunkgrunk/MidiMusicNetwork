@@ -8,7 +8,7 @@ import network.Grid;
 import network.Interaction;
 import network.Node;
 import processing.core.PApplet;
-import processing.core.PConstants;
+import processing.core.PFont;
 import processing.event.MouseEvent;
 import themidibus.MidiBus;
 
@@ -32,14 +32,17 @@ public class Applet extends PApplet {
 	
 	public void settings() {
 		int unit = 64;
-		grid = new Grid(unit*10, unit*10, 64);
+		grid = new Grid(unit*20, unit*20, 32);
 		size(unit*10, unit*10);
 		
 	}
 
 	public void setup() {
+		PFont myFont = createFont("Arial", 12);
+		textFont(myFont);
+
 		prevTime = 0;
-		interaction = new Interaction(nodes, midiManager, grid);
+		interaction = new Interaction(nodes, midiManager, grid, this);
 	}
 
 	public void draw() {
@@ -103,16 +106,18 @@ public class Applet extends PApplet {
 	}
 
 	public void keyPressed() {
-		interaction.keyPressed(key);
-		
-		//if (key == 'a') {
-			//System.out.println("helo=");
-		midiManager.setSustain(true);
+		interaction.keyPressed(key, keyCode);
+		if (key == 'c') {
+			midiManager.setSustain(true);
+		}
 		//}
 	}
 	
 	public void keyReleased() {
-		midiManager.setSustain(false);
+		interaction.keyReleased(key, keyCode);
+		if (key == 'c') {
+			midiManager.setSustain(false);
+		}
 		
 		if (key == 'a') {
 			midiManager.setSustain(false);

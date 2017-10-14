@@ -71,7 +71,7 @@ public class MidiManager {
 			for (int i = signals.size()-1; i >= 0; i--) {
 				Signal s = signals.get(i);
 				s.time += dt;
-				System.out.println(s.time);
+
 				if (s.time >= s.duration) {
 					signals.remove(i);
 					sendNoteOff(s);

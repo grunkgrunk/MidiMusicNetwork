@@ -54,11 +54,7 @@ public class Applet extends PApplet {
 		interaction.updateHitNode(mouseX, mouseY);
 		
 		for (Node n : nodes) {
-			// multiply dt and bpm to get the correct tempo.
-			// this is probably not the correct math yet
-			// we need to also take the grid into account. 
-			// one grid should be equal to 1 eight note.
-			
+			// one gridline equals 1/16 note.
 			
 			n.update(dt*bpm*grid.getPxPrUnit() / 16);
 		}

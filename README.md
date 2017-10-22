@@ -17,4 +17,4 @@ For now I have created a little track that demonstrates what the program can do.
 Here you can listen to it:
 https://soundcloud.com/grunkn/midinetworkexperiment
 
-As you can hear the rhythm is not really tight. I hope to improve on this in the future.
+As you can hear, the rhythm is not really tight. I hope to improve on this in the future.

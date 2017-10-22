@@ -34,6 +34,8 @@ public class Grid {
 		return pos;
 	}
 	
+	
+	
 	public void render(PApplet app) {
 		app.stroke(45);
 		app.strokeWeight(1);

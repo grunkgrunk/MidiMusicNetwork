@@ -31,7 +31,7 @@ public class Packet {
 			dir = to.getPosition().sub(pos).normalize();
 			pos.add(dir.copy().mult(dt));
 			
-			if (pos.dist(to.getPosition()) <= pxPrSecond) {
+			if (pos.dist(to.getPosition()) < 0.001) {
 				arrive();
 			}
 		}
@@ -45,7 +45,7 @@ public class Packet {
 	public void render(PApplet app) {
 		app.strokeWeight(3);
 		app.stroke(200, 200, 200, 100);
-		app.line(pos.x, pos.y, pos.x+dir.x*8, pos.y+dir.y*8);
+		app.line(pos.x, pos.y, pos.x+dir.x*4, pos.y+dir.y*4);
 	}
 	
 	public boolean getHasSent() {

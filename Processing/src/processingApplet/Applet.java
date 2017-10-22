@@ -20,7 +20,7 @@ public class Applet extends PApplet {
 	Interaction interaction;
 	Grid grid;
 	
-	float bpm = 60;
+	float bpm = 120;
 	float prevTime = 0;
 	float dt = 0;
 	
@@ -34,10 +34,10 @@ public class Applet extends PApplet {
 		int unit = 64;
 		grid = new Grid(unit*20, unit*20, 32);
 		size(unit*10, unit*10);
-		
 	}
 
 	public void setup() {
+		frameRate(200);
 		PFont myFont = createFont("Arial", 12);
 		textFont(myFont);
 
@@ -46,21 +46,16 @@ public class Applet extends PApplet {
 	}
 
 	public void draw() {
-		// convert delta time to seconds.
-		dt = (millis() - prevTime)/1000;
+		// convert delta time to minutes.
+		dt = (millis() - prevTime)/1000/60;
 		
 		midiManager.update(dt);
 		
 		interaction.updateHitNode(mouseX, mouseY);
 		
 		for (Node n : nodes) {
-			// multiply dt and bpm to get the correct tempo.
-			// this is probably not the correct math yet
-			// we need to also take the grid into account. 
-			// one grid should be equal to 1 eight note.
-			
-			
-			n.update(dt*bpm*grid.getPxPrUnit() / 16);
+			// one grid cell equals one 16'th note.
+			n.update(dt*grid.getPxPrUnit()*bpm*4);
 		}
 		
 		background(50);
@@ -83,6 +78,9 @@ public class Applet extends PApplet {
 		
 		// Draw how the system responds to user input. 
 		interaction.render(this);
+		
+		fill(255, 255, 255);
+		text(frameRate, 20,20);
 		
 		prevTime = millis();
 
@@ -115,12 +113,5 @@ public class Applet extends PApplet {
 	
 	public void keyReleased() {
 		interaction.keyReleased(key, keyCode);
-		if (key == 'c') {
-			midiManager.setSustain(false);
-		}
-		
-		if (key == 'a') {
-			midiManager.setSustain(false);
-		}
 	}
 }

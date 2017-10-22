@@ -15,7 +15,6 @@ public class MusicNode extends Node {
 	//private int sendSpeed = 5;
 	private boolean instantSend = false;
 	
-	
 	private MidiManager midiManager;
 	
 	public MusicNode(MidiManager midiManager, float x, float y) {
@@ -31,7 +30,7 @@ public class MusicNode extends Node {
 	
 	public void sendPackets() {
 		generatePackets();
-		if (octaveIndex != 0 && scaleIndex != 0) {
+		if (octaveIndex != 0 || scaleIndex != 0) {
 			midiManager.addSignal(pitch, velocity);
 		}
 	}
@@ -45,10 +44,11 @@ public class MusicNode extends Node {
 	public void incrementPitch(int delta) {
 		scaleIndex += delta;
 		if (scaleIndex > scale.length-1) {
-			octaveIndex++;
-			scaleIndex = 0;
-			if(octaveIndex > 5)
-				octaveIndex = 5;
+			octaveIndex += Math.floor(delta/scale.length)+1;
+			scaleIndex = delta%scale.length;
+			if(octaveIndex > 7) {
+				octaveIndex = 7;				
+			}
 		} 
 		
 		if (scaleIndex < 0) {
@@ -106,4 +106,6 @@ public class MusicNode extends Node {
 	public void setInstantSend(boolean state) {
 		instantSend = state;
 	}
+	
+	
 }

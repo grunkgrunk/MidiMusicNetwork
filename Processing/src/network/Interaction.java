@@ -1,6 +1,7 @@
 package network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import instrument.MidiManager;
 import processing.core.PApplet;
@@ -9,6 +10,8 @@ import processing.core.PVector;
 import processing.event.MouseEvent;
 
 public class Interaction {
+	// Should be able to copy paste
+	
 	private static final int LEFT = PConstants.LEFT;
 	private static final int RIGHT = PConstants.RIGHT;
 	private static final int CENTER = PConstants.CENTER;
@@ -33,8 +36,9 @@ public class Interaction {
 	
 	//private ArrayList<MusicNode> bindings = new ArrayList<MusicNode>();
 	
-	private char[] keysToBind = {'1','2','3','4'};
-	private MusicNode[] bindings = new MusicNode[keysToBind.length];
+	private char[] keysToBind = {'a','s','d','f', 'g'};
+	//private ArrayList<MusicNode> bindings = new ArrayList<MusicNode>(keysToBind.length);
+	private List<List<MusicNode>> bindings = new ArrayList<List<MusicNode>>(); 
 	
 
 	public Interaction(ArrayList<Node> nodes, MidiManager midiManager, Grid grid, PApplet app) {
@@ -42,9 +46,29 @@ public class Interaction {
 		this.midiManager = midiManager;
 		this.grid = grid;
 		this.app = app;
+//		
+//		for (int i = 0; i < 19; i++) {
+//			PVector pos = grid.gridToWorld(i + 1, 1);
+//			Node created = new MusicNode(midiManager, pos.x, pos.y);
+//			((MusicNode)created).incrementPitch(i);
+//			nodes.add(created);
+//		}
+		
+		for (int i = 0; i < keysToBind.length; i++) {
+			bindings.add(new ArrayList<MusicNode>());
+		}
 	}
 
 	public void render(PApplet app) {
+		for (int i = 0; i < bindings.size(); i++) {
+			List<MusicNode> bound = bindings.get(i);
+			for (MusicNode n : bound) { 
+				PVector pos = n.getPosition();
+				app.text(keysToBind[i], pos.x, pos.y + 8);
+			}
+		}
+		
+		
 		if (selectFrom != null) {
 			PVector pos1 = selectFrom.getPosition();
 			PVector pos2 = new PVector(mouseX, mouseY);
@@ -61,6 +85,14 @@ public class Interaction {
 		} else if (selectFrom != null) {
 			selectFrom.renderSelect(app);
 		}
+		
+		app.stroke(255, 255, 255, 100);
+		if (shiftPressed) {
+			app.stroke(255, 0, 0, 100);
+		}
+		app.strokeWeight(2);
+		app.noFill();
+		app.ellipse(mouseX, mouseY, 10, 10);
 	}
 
 	public void mouseDragged() {
@@ -117,16 +149,23 @@ public class Interaction {
 		if (key == PConstants.CODED) {
 			if (keyCode == PConstants.SHIFT) {
 				shiftPressed = true;
-				System.out.println("SHIFT");
 			}
 		}
 		
-		
-		if (key == 'p') {
-			nodes.clear();
+		if (key ==  ' ') {
+			midiManager.setSustain(true);
 		}
 		
-		if (key == 'a') {
+		
+		if (key == 'c') {
+			nodes.clear();
+			for (List<MusicNode> bound : bindings) {
+				bound.clear();
+			}
+			
+		}
+		
+		if (key == 'i') {
 			if (hitNode != null) {
 				MusicNode n = (MusicNode)hitNode;
 				n.setInstantSend(!n.getInstantSend());
@@ -134,15 +173,20 @@ public class Interaction {
 		}
 		
 		for (int i = 0; i < keysToBind.length; i++) {
+			
 			char k = keysToBind[i];
-			if (k == key) {
-				//ArrayList<MusicNode> toPlay = bindings.get(i);
-				//System.out.println(shiftPressed);
+			if (k == Character.toLowerCase(key)) {
+				List<MusicNode> toPlay = bindings.get(i);
 				if (hitNode != null && shiftPressed) {
-					shiftPressed = false;
-					bindings[i] = (MusicNode)hitNode;
-				} else if (bindings[i] != null) {
-					bindings[i].sendPackets();
+					if (!toPlay.contains((MusicNode)hitNode)) {
+						toPlay.add((MusicNode)hitNode);
+					} else {
+						toPlay.remove((MusicNode)hitNode);
+					}
+				} else {
+					for (MusicNode n : toPlay) {
+						n.sendPackets();
+					}
 				}
 			}
 		}
@@ -151,8 +195,12 @@ public class Interaction {
 	public void keyReleased(char key, int keyCode) {
 		if (key == PConstants.CODED) {
 			if (keyCode == PConstants.SHIFT) {
-				//shiftPressed = false;
+				shiftPressed = false;
 			}
+		}
+		
+		if (key ==  ' ') {
+			midiManager.setSustain(false);
 		}
 	}
 

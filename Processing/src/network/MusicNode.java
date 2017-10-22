@@ -8,7 +8,12 @@ public class MusicNode extends Node {
 	private int scaleIndex = 0;
 	private int octaveIndex = 5;
 	
-	private static int[] scale = {0, 2, 3, 5, 7, 8, 11};
+	private static final String[] alphabet = 
+		{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+	
+	
+	
+	private static final int[] scale = {0, 2, 3, 5, 7, 8, 11};
 	
 	private int velocity = 100;
 	private int pitch = scale[scaleIndex] + octaveIndex * 12;
@@ -92,7 +97,7 @@ public class MusicNode extends Node {
 			super.renderNormal(app);
 			app.textAlign(PConstants.CENTER);
 			
-			app.text(pitch, position.x, position.y);
+			app.text(alphabet[scale[scaleIndex]] + Integer.toString(octaveIndex), position.x, position.y);
 		} else {
 			app.ellipse(position.x, position.y, radius, radius);
 		}

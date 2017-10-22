@@ -154,6 +154,7 @@ public class Interaction {
 		
 		if (key ==  ' ') {
 			midiManager.setSustain(true);
+			System.out.println("Setting sustains");
 		}
 		
 		

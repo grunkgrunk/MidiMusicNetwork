@@ -46,8 +46,8 @@ public class Applet extends PApplet {
 	}
 
 	public void draw() {
-		// convert delta time to minutes.
-		dt = (millis() - prevTime)/1000/60;
+		// convert delta time to seconds.
+		dt = (millis() - prevTime)/1000;
 		
 		midiManager.update(dt);
 		
@@ -55,7 +55,8 @@ public class Applet extends PApplet {
 		
 		for (Node n : nodes) {
 			// one grid cell equals one 16'th note.
-			n.update(dt*grid.getPxPrUnit()*bpm*4);
+			// convert dt to minutes
+			n.update((dt/60)*grid.getPxPrUnit()*bpm*4);
 		}
 		
 		background(50);

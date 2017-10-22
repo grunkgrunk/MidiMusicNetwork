@@ -73,6 +73,7 @@ public class MidiManager {
 				s.time += dt;
 
 				if (s.time >= s.duration) {
+					System.out.println("Removed!");
 					signals.remove(i);
 					sendNoteOff(s);
 				}

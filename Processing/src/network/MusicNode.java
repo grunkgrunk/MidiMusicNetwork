@@ -112,6 +112,10 @@ public class MusicNode extends Node {
 	public void setIsMute(boolean state) {
 		isMute = state;
 	}
+	
+	public boolean getIsMute() {
+		return isMute;
+	}
 
 	public void toggleMute() {
 		isMute = !isMute;

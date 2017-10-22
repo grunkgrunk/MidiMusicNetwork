@@ -21,7 +21,7 @@ public class Interaction {
 	private Node selectFrom;
 	private Node selectTo;
 	// The node that is under the cursor
-	private Node hitNode;
+	private MusicNode hitNode;
 
 	private float mouseX;
 	private float mouseY;
@@ -47,7 +47,8 @@ public class Interaction {
 		this.midiManager = midiManager;
 		this.grid = grid;
 		this.app = app;
-//		
+
+// If we want to have a little keyboard to begin with 		
 //		for (int i = 0; i < 19; i++) {
 //			PVector pos = grid.gridToWorld(i + 1, 1);
 //			Node created = new MusicNode(midiManager, pos.x, pos.y);
@@ -64,6 +65,7 @@ public class Interaction {
 		for (int i = 0; i < bindings.size(); i++) {
 			List<MusicNode> bound = bindings.get(i);
 			for (MusicNode n : bound) { 
+				if (n.getIsMute()) { continue; }
 				PVector pos = n.getPosition();
 				app.text(keysToBind[i], pos.x, pos.y + 8);
 			}
@@ -106,7 +108,7 @@ public class Interaction {
 
 	public void mouseWheel(MouseEvent e) {
 		if (hitNode != null) {
-			((MusicNode) hitNode).incrementPitch(e.getCount());
+			hitNode.incrementPitch(e.getCount());
 		}
 	}
 
@@ -167,10 +169,10 @@ public class Interaction {
 			
 			if (hitNode != null) {
 				if (keyCode == PConstants.UP) {
-					((MusicNode) hitNode).incrementPitch(1);
+					hitNode.incrementPitch(1);
 				}
 				if (keyCode == PConstants.DOWN) {
-					((MusicNode) hitNode).incrementPitch(-1);
+					hitNode.incrementPitch(-1);
 				}
 			}
 		}
@@ -188,29 +190,16 @@ public class Interaction {
 			
 		}
 		
-		if (key == 'i') {
-			if (hitNode != null) {
-				MusicNode n = (MusicNode)hitNode;
-				n.setInstantSend(!n.getInstantSend());
-			}
-		}
-		
-		if (key == 'm') {
-			if (hitNode != null) {
-				((MusicNode)hitNode).toggleMute();
-			}
-		}
-		
 		for (int i = 0; i < keysToBind.length; i++) {
 			
 			char k = keysToBind[i];
 			if (k == Character.toLowerCase(key)) {
 				List<MusicNode> toPlay = bindings.get(i);
 				if (hitNode != null && shiftPressed) {
-					if (!toPlay.contains((MusicNode)hitNode)) {
-						toPlay.add((MusicNode)hitNode);
+					if (!toPlay.contains(hitNode)) {
+						toPlay.add(hitNode);
 					} else {
-						toPlay.remove((MusicNode)hitNode);
+						toPlay.remove(hitNode);
 					}
 				} else {
 					for (MusicNode n : toPlay) {
@@ -218,6 +207,17 @@ public class Interaction {
 					}
 				}
 			}
+		}
+		
+		if (hitNode == null) { return; }
+		
+		if (key == 'i') {
+			MusicNode n = hitNode;
+			n.setInstantSend(!n.getInstantSend());
+		}
+		
+		if (key == 'm') {
+			hitNode.toggleMute();
 		}
 	}
 	
@@ -264,7 +264,7 @@ public class Interaction {
 	public void updateHitNode(float mx, float my) {
 		mouseX = mx;
 		mouseY = my;
-		hitNode = collisionNodePosition(mx, my);
+		hitNode = (MusicNode) collisionNodePosition(mx, my);
 	}
 
 	

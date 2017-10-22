@@ -12,6 +12,7 @@ Nodes can be placed on a grid and be connected to one another. When a node is pr
 
 # Showcase
 For now I have created a little track that demonstrates what the program can do. This is what the program looked like:
+
 ![This what it looks like](/screenshot.png)
 
 Here you can listen to it:

@@ -21,6 +21,7 @@ public class MusicNode extends Node {
 	private boolean instantSend = false;
 	
 	private MidiManager midiManager;
+	private boolean isMute = false;
 	
 	public MusicNode(MidiManager midiManager, float x, float y) {
 		super(x, y);
@@ -35,7 +36,7 @@ public class MusicNode extends Node {
 	
 	public void sendPackets() {
 		generatePackets();
-		if (octaveIndex != 0 || scaleIndex != 0) {
+		if (!isMute) {
 			midiManager.addSignal(pitch, velocity);
 		}
 	}
@@ -89,14 +90,10 @@ public class MusicNode extends Node {
 	}
 	
 	public void renderNormal(PApplet app) {
-		//app.fill(255);
-		//app.noStroke();
-		//app.ellipse(position.x, position.y, radius*2, radius*2);
 		app.fill(0);
-		if (pitch > -1) {
+		if (!isMute ) {
 			super.renderNormal(app);
 			app.textAlign(PConstants.CENTER);
-			
 			app.text(alphabet[scale[scaleIndex]] + Integer.toString(octaveIndex), position.x, position.y);
 		} else {
 			app.ellipse(position.x, position.y, radius, radius);
@@ -110,6 +107,15 @@ public class MusicNode extends Node {
 	
 	public void setInstantSend(boolean state) {
 		instantSend = state;
+	}
+	
+	public void setIsMute(boolean state) {
+		isMute = state;
+	}
+
+	public void toggleMute() {
+		isMute = !isMute;
+		
 	}
 	
 	

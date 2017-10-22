@@ -11,6 +11,7 @@ import processing.event.MouseEvent;
 
 public class Interaction {
 	// Should be able to copy paste
+	// Should make a list of all pressed keys, so the same key won't be send repeatedly
 	
 	private static final int LEFT = PConstants.LEFT;
 	private static final int RIGHT = PConstants.RIGHT;
@@ -132,6 +133,17 @@ public class Interaction {
 
 			int index = nodes.indexOf(hitNode);
 			nodes.remove(index);
+			
+			// remove keybindings to this node
+			for (List<MusicNode> bound : bindings) {
+				for (int i = bound.size()-1; i >= 0; i--) {
+					MusicNode current = bound.get(i);
+					if (current == hitNode) {
+						bound.remove(current);
+					}
+				}
+			}
+			
 		}
 	}
 
@@ -145,8 +157,9 @@ public class Interaction {
 		selectTo = null;
 	}
 
-	// Doesnt work when keys are spammed. 
+	// Doesnt work when keys are spammed. OR something??
 	public void keyPressed(char key, int keyCode) {
+		System.out.println(key);
 		if (key == PConstants.CODED) {
 			if (keyCode == PConstants.SHIFT) {
 				shiftPressed = true;
@@ -179,6 +192,12 @@ public class Interaction {
 			if (hitNode != null) {
 				MusicNode n = (MusicNode)hitNode;
 				n.setInstantSend(!n.getInstantSend());
+			}
+		}
+		
+		if (key == 'm') {
+			if (hitNode != null) {
+				((MusicNode)hitNode).toggleMute();
 			}
 		}
 		

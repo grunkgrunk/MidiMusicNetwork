@@ -34,12 +34,15 @@ public class Applet extends PApplet {
 		int unit = 64;
 		grid = new Grid(unit*20, unit*20, 32);
 		size(unit*10, unit*10);
+		
 	}
 
 	public void setup() {
 		
 		PFont myFont = createFont("Arial", 9);
 		textFont(myFont);
+		
+		noCursor();
 
 		prevTime = 0;
 		interaction = new Interaction(nodes, midiManager, grid, this);
@@ -108,7 +111,6 @@ public class Applet extends PApplet {
 		if (key == 'c') {
 			midiManager.setSustain(true);
 		}
-		//}
 	}
 	
 	public void keyReleased() {

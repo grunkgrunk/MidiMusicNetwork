@@ -145,16 +145,25 @@ public class Interaction {
 		selectTo = null;
 	}
 
+	// Doesnt work when keys are spammed. 
 	public void keyPressed(char key, int keyCode) {
 		if (key == PConstants.CODED) {
 			if (keyCode == PConstants.SHIFT) {
 				shiftPressed = true;
 			}
+			
+			if (hitNode != null) {
+				if (keyCode == PConstants.UP) {
+					((MusicNode) hitNode).incrementPitch(1);
+				}
+				if (keyCode == PConstants.DOWN) {
+					((MusicNode) hitNode).incrementPitch(-1);
+				}
+			}
 		}
 		
 		if (key ==  ' ') {
 			midiManager.setSustain(true);
-			System.out.println("Setting sustains");
 		}
 		
 		

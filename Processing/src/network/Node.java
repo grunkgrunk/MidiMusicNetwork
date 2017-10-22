@@ -54,7 +54,7 @@ public abstract class Node extends Circle {
 		}
 	}
 	
-	public void update(float dt) {
+	public void update(double dt) {
 		// All packets get updated. If the packet has arrived at its destination,
 		// it will be removed. 
 		for (int i = packets.size()-1; i >= 0; i--) {

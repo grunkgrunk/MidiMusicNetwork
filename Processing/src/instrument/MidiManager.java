@@ -44,7 +44,7 @@ public class MidiManager {
 		}	
 	}
 	
-	public void update(float dt) {
+	public void update(double dtSecs) {
 		// Adding signals slowly
 		for (int i = signalsToAdd.size()-1; i >= 0; i--) {
 			Signal s = signalsToAdd.get(i);
@@ -70,10 +70,10 @@ public class MidiManager {
 		// Without sustain
 			for (int i = signals.size()-1; i >= 0; i--) {
 				Signal s = signals.get(i);
-				s.time += dt;
+				s.time += dtSecs;
 
 				if (s.time >= s.duration) {
-					System.out.println("Removed!");
+					//System.out.println("Removed!");
 					signals.remove(i);
 					sendNoteOff(s);
 				}

@@ -37,8 +37,8 @@ public class Applet extends PApplet {
 	}
 
 	public void setup() {
-		frameRate(200);
-		PFont myFont = createFont("Arial", 12);
+		
+		PFont myFont = createFont("Arial", 9);
 		textFont(myFont);
 
 		prevTime = 0;
@@ -55,8 +55,7 @@ public class Applet extends PApplet {
 		
 		for (Node n : nodes) {
 			// one grid cell equals one 16'th note.
-			// convert dt to minutes
-			n.update((dt/60)*grid.getPxPrUnit()*bpm*4);
+			n.update((dt/60)*grid.getPxPrUnit()*bpm*2);
 		}
 		
 		background(50);

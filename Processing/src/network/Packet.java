@@ -26,12 +26,12 @@ public class Packet {
 		}
 	}
 	
-	public void update(float dt) {
+	public void update(double dt) {
 		if (!hasSent) {
 			dir = to.getPosition().sub(pos).normalize();
-			pos.add(dir.copy().mult(dt));
+			pos.add(dir.copy().mult((float) dt));
 			
-			if (pos.dist(to.getPosition()) < 0.001) {
+			if (pos.dist(to.getPosition()) < 1) {
 				arrive();
 			}
 		}
@@ -55,4 +55,5 @@ public class Packet {
 	public Node getSender() {
 		return from;
 	}
+
 }

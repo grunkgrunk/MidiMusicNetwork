@@ -11,11 +11,11 @@ Nodes can be placed on a grid and be connected to one another. When a node is pr
 
 
 ## Showcase
-For now I have created a little track that demonstrates what the program can do. This is what the program looked like:
+For now I have created a little track that demonstrates what the program can do. This is what the program looked like when I created it:
 
 ![This what it looks like](/screenshot.png)
 
 Here you can listen to it:
 https://soundcloud.com/grunkn/midinetworkexperiment
 
-As you can hear, the beat is not steady at all. I hope to improve on this in the future.
+As you can hear, the beat is not steady at all and the melody is not really that good either. I hope to improve on this in the future.

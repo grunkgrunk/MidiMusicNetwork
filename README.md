@@ -8,7 +8,14 @@ After watching Mark Browns' video on game controllers: https://www.youtube.com/w
 Nodes can be placed on a grid and be connected to one another. When a node is pressed, it sends a package to all nodes connected to this node. Whenever a node receives a package it sends a midi-signal based on some data on the node object. If you have another program open that can listen for midi-signals, that program can be used with this one. I'm using it with Logic X to create arppeggios and small repeating melodies.
 
 ## How to use
+### Mouse actions
+Left-click on an empty region to create a node. Left click on an exsisting node to play that node. Middle-click to delete the node. Scroll on the node to change its' pitch (You can also use the arrow-keys for this). Drag with right-click to establish a connection between this node and another one.
 
+### Keyboard
+While hovering over a node, press 'm' to mute it and 'i' to make it receive packages from other nodes instantly. 
+You can also bind keys 'a', 's', 'd', 'f', 'g' to play certain nodes. Hover the mouse over a node, then hold shift and press the key you want to bind.
+Hold space to enable sustain (Works like the sustain pedal on a piano). 
+Press c to clear all nodes.
 
 ## Showcase
 For now I have created a little track that demonstrates what the program can do. This is what the program looked like when I created it:
